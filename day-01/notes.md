@@ -1,96 +1,107 @@
-﻿# Day 1 Notes — What Is Predictive Modeling?
+﻿# Day 1 — Ordinary Least Squares Linear Regression
 
-Date: Day 1
-Topic: Introduction to Predictive Modeling + Linear Regression
-Goal: Understand what a model does and write your first prediction in Python.
+## What Is a Predictive Model?
 
----
+A predictive model is a function f that maps input variables X to an output variable y:
 
-## 1. What Is Predictive Modeling?
+    y_hat = f(X)
 
-Predictive modeling is teaching a computer to learn from past data so it can make smart guesses about the future.
-
-Think of it like this:
-  "I have seen 1,000 houses with their sizes and prices.
-   If you show me a new house, I can guess its price."
-
-The computer finds PATTERNS in data. Those patterns become a MODEL.
-The model then PREDICTS new things.
+The function f is not hand-written. It is estimated from data — a set of (X, y) pairs called the training set.
+The model is useful when f generalises: it produces accurate y_hat for inputs it has not seen before.
 
 ---
 
-## 2. Key Vocabulary
+## Ordinary Least Squares (OLS) — The Math
 
-| Word             | Plain English                                          |
-|------------------|--------------------------------------------------------|
-| Feature (X)      | The input(s) we give the model. e.g., house size       |
-| Label (y)        | The output we want to predict. e.g., house price       |
-| Training         | Showing the model examples so it can learn             |
-| Prediction       | The model answer for a new input                       |
-| Model            | A mathematical rule the computer learned               |
+For a single input variable, the linear model is:
 
----
-
-## 3. The Simplest Predictive Model: Linear Regression
-
-Linear Regression draws the best-fit straight line through your data.
-
-Formula:
-    y = m * x + b
+    y_hat = w1 * x + w0
 
 Where:
-  y = what we are predicting (price)
-  x = our input (house size in sqft)
-  m = slope (how much y changes per unit of x)
-  b = intercept (y-value when x = 0)
+  w1 = slope (weight)
+  w0 = intercept (bias)
 
-The computer finds the best m and b automatically!
+The goal is to find w1 and w0 that minimise the Residual Sum of Squares (RSS):
 
----
+    RSS = sum( (yi - y_hat_i)^2 )  for i in 1..n
 
-## 4. Real-World Analogy
+Taking the derivative of RSS with respect to w1 and w0, setting both to zero, and solving gives the closed-form OLS solution:
 
-You notice:
-  - A student who studies 1 hour  scores ~50
-  - A student who studies 2 hours scores ~60
-  - A student who studies 3 hours scores ~70
+    w1 = sum( (xi - x_mean)(yi - y_mean) ) / sum( (xi - x_mean)^2 )
+    w0 = y_mean - w1 * x_mean
 
-Linear regression would learn: score = 10 * hours_studied + 40
+This is the Ordinary Least Squares estimator. It finds the unique line that minimises squared vertical distances between the data points and the line.
 
-Now if someone studies 5 hours: predicted score = 10*5 + 40 = 90
+Why squared? Squaring penalises large errors more than small ones, and makes the loss function differentiable everywhere.
 
 ---
 
-## 5. The ML Workflow (Every Day)
+## Residuals
 
-  1. Collect Data
-  2. Clean Data
-  3. Train Model
-  4. Evaluate
-  5. Predict
+The residual for observation i is:
 
-Today we focus on steps 3 and 5 using a toy dataset.
+    e_i = y_i - y_hat_i
 
----
+Residuals are what the model failed to explain. In a well-fitting model, residuals should be:
+  - Small in magnitude
+  - Randomly distributed (no pattern)
+  - Approximately zero on average
 
-## 6. What To Do Today
-
-1. Read these notes carefully
-2. Run code.py and study each printed output
-3. Complete exercises.md (try before looking at solutions!)
-4. Commit your work:
-       git add .
-       git commit -m "Day 1: Introduction to predictive modeling"
+If residuals show a pattern (e.g. they increase with x), the linear assumption is violated and a more complex model is needed.
 
 ---
 
-## Key Takeaways
+## Evaluation Metrics
 
-- A model is a mathematical function that maps inputs to outputs
-- Linear Regression is the "Hello World" of predictive modeling
-- The model learns by minimizing ERROR between predictions and real answers
-- Tomorrow: we dig into features, labels, and the train/test split
+**Mean Squared Error (MSE)**
+
+    MSE = (1/n) * sum( (yi - y_hat_i)^2 )
+
+Penalises large errors strongly. Units are squared.
+
+**Root Mean Squared Error (RMSE)**
+
+    RMSE = sqrt(MSE)
+
+Same units as the target variable. Easier to interpret.
+
+**Mean Absolute Error (MAE)**
+
+    MAE = (1/n) * sum( |yi - y_hat_i| )
+
+Less sensitive to outliers than MSE.
+
+**R-squared (Coefficient of Determination)**
+
+    R^2 = 1 - (RSS / TSS)
+
+    where TSS = sum( (yi - y_mean)^2 )
+
+R^2 measures the proportion of variance in y explained by the model.
+  R^2 = 1.0 → perfect fit
+  R^2 = 0.0 → model explains nothing (predicting the mean every time)
+  R^2 < 0   → model is worse than predicting the mean
 
 ---
 
-"Start simple. Understand deeply. Build on top."
+## Assumptions of Linear Regression
+
+1. Linearity — the relationship between X and y is linear
+2. Independence — observations are independent of each other
+3. Homoscedasticity — residuals have constant variance across all values of X
+4. Normality of residuals — residuals are approximately normally distributed
+5. No multicollinearity — input features are not highly correlated (for multiple regression)
+
+Violating these assumptions does not necessarily break the model, but it does degrade the reliability of predictions and statistical inference.
+
+---
+
+## Files
+
+- `linear_regression.py` — OLS implementation from scratch + sklearn verification + plots
+- `exercises.md` — problems covering derivation, implementation, and interpretation
+- `solutions/` — reference answers
+
+## Next
+
+Day 2 covers train/test splitting, data leakage, and why evaluating on training data is invalid.

@@ -1,61 +1,62 @@
-﻿
+﻿# Predictive Modeling — Study Repository
 
-## 📅 Learning Log
+A self-paced study log covering predictive modeling from first principles to applied projects.
+Each day has notes, working code, and exercises with solutions.
 
-| Day | Topic | Status |
-|-----|-------|--------|
-| [Day 01](./day-01/) | What is Predictive Modeling? + Linear Regression | ✅ Done |
+## Structure
 
----
+```
+day-XX/
+    notes.md          # Theory and derivations
+    linear_regression.py  # (or relevant topic script)
+    exercises.md      # Problems — attempt before opening solutions/
+    solutions/        # Reference answers
+```
 
-## 🗺️ Roadmap (Big Picture)
+## Dependencies
 
-`
-Week 1 — Foundations
-  Day 1  → What is a model? What is prediction?
-  Day 2  → Your data: features, labels, train/test split
-  Day 3  → Linear Regression deep dive
-  Day 4  → Evaluating models (MAE, MSE, R²)
-  Day 5  → Overfitting & Underfitting
+```
+pip install numpy pandas matplotlib scikit-learn
+```
 
-Week 2 — Classification
-  Day 6  → Logistic Regression
-  Day 7  → Decision Trees
-  Day 8  → k-Nearest Neighbors (kNN)
-  Day 9  → Confusion Matrix, Precision, Recall
-  Day 10 → Support Vector Machines (SVM)
+## Curriculum
 
-Week 3 — Intermediate
-  Day 11 → Random Forests and Bagging
-  Day 12 → Gradient Boosting (XGBoost)
-  Day 13 → Feature Engineering
-  Day 14 → Cross-Validation
-  Day 15 → Pipelines and Best Practices
+### Week 1 — Regression Foundations
+| Day | Topic |
+|-----|-------|
+| 01  | Linear regression: OLS derivation, sklearn, evaluation metrics |
+| 02  | Features, labels, train/test split, data leakage |
+| 03  | Gradient descent — how parameters are actually learned |
+| 04  | Evaluation: MAE, MSE, RMSE, R² |
+| 05  | Bias-variance tradeoff, overfitting, regularization (Ridge/Lasso) |
 
-Week 4 — Real Projects
-  Day 16 → End-to-end project: House Price Prediction
-  Day 17 → End-to-end project: Titanic Survival
-  Day 18 → End-to-end project: Customer Churn
-`
+### Week 2 — Classification
+| Day | Topic |
+|-----|-------|
+| 06  | Logistic regression and the sigmoid function |
+| 07  | Decision trees: information gain, Gini impurity |
+| 08  | k-Nearest Neighbors |
+| 09  | Evaluation: confusion matrix, precision, recall, F1, ROC-AUC |
+| 10  | Support Vector Machines: hard and soft margin |
 
----
+### Week 3 — Ensemble Methods and Best Practices
+| Day | Topic |
+|-----|-------|
+| 11  | Bagging and Random Forests |
+| 12  | Boosting: AdaBoost, Gradient Boosting, XGBoost |
+| 13  | Feature engineering and selection |
+| 14  | Cross-validation: k-fold, stratified, leave-one-out |
+| 15  | Pipelines, preprocessing, and production-ready code |
 
-## 🛠️ Setup
+### Week 4 — Applied Projects
+| Day | Topic |
+|-----|-------|
+| 16  | House price prediction (regression, end-to-end) |
+| 17  | Titanic survival (binary classification) |
+| 18  | Customer churn (imbalanced classes, threshold tuning) |
 
-`ash
-pip install numpy pandas matplotlib scikit-learn jupyter
-`
+## Progress
 
----
-
-## 📝 How This Repo Works
-
-- Each day-XX/ folder has:
-  - notes.md — concept notes written in plain English
-  - code.py  — runnable Python code
-  - exercises.md — practice questions (answers inside solutions/)
-- Commit your work every day. Progress compounds!
-
----
-
-*Started: Day 1 — September 2026*
+| Day | Status |
+|-----|--------|
+| 01  | complete |

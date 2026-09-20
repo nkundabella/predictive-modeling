@@ -22,7 +22,6 @@ print("=" * 60)
 print("PART 1 — THE STUDY-HOURS ANALOGY")
 print("=" * 60)
 
-# Our tiny dataset: hours studied vs exam score
 hours_studied = [1, 2, 3, 4, 5, 6, 7, 8]
 exam_scores   = [52, 58, 65, 70, 78, 83, 90, 95]
 
@@ -32,9 +31,6 @@ for h, s in zip(hours_studied, exam_scores):
     bar = "█" * int(s / 5)
     print(f"  {h} hour(s)     |  {s}   {bar}")
 
-# ───────────────────────────────────────────────────────────────────────────
-# PART 2 — Manual Linear Regression (so you see the math!)
-# ───────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("PART 2 — LINEAR REGRESSION MATH (manual)")
 print("=" * 60)
@@ -78,11 +74,10 @@ print("\n" + "=" * 60)
 print("PART 3 — LINEAR REGRESSION WITH SCIKIT-LEARN")
 print("=" * 60)
 
-# sklearn expects a 2D array for X
-X = x.reshape(-1, 1)   # shape: (8, 1)
+X = x.reshape(-1, 1)  
 
 model = LinearRegression()
-model.fit(X, y)         # <-- this is where "learning" happens
+model.fit(X, y)         
 
 print(f"\n  sklearn slope     : {model.coef_[0]:.4f}")
 print(f"  sklearn intercept : {model.intercept_:.4f}")
@@ -98,9 +93,6 @@ print(f"  R² Score                 : {r2:.4f}")
 print("\n  MSE  → lower is better (0 = perfect)")
 print("  R²   → closer to 1.0 is better (1.0 = perfect fit)")
 
-# ───────────────────────────────────────────────────────────────────────────
-# PART 4 — Making New Predictions (the exciting part!)
-# ───────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("PART 4 — PREDICTING NEW SCORES")
 print("=" * 60)
