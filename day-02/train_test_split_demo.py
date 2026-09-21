@@ -228,7 +228,7 @@ ax.grid(True, alpha=0.3, axis="y")
 
 plt.tight_layout()
 plt.savefig("day-02/plot.png", dpi=120, bbox_inches="tight")
-print("  Plot saved → day-02/plot.png")
+print("  Plot saved -> day-02/plot.png")
 
 print("\n" + "=" * 60)
 print("  DAY 2 COMPLETE! Read exercises.md for your challenge.")

@@ -142,7 +142,7 @@ ax.legend()
 ax.grid(True, alpha=0.3, axis="y")
 plt.tight_layout()
 plt.savefig("day-02/solutions/ex9_histogram.png", dpi=120, bbox_inches="tight")
-print("  Plot saved → day-02/solutions/ex9_histogram.png")
+print("  Plot saved -> day-02/solutions/ex9_histogram.png")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
