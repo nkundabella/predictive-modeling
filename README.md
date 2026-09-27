@@ -1,4 +1,4 @@
-# Predictive Modeling — Study Repository
+# Predictive Modeling â€” Study Repository
 
 A self-paced study log covering predictive modeling from first principles to applied projects.
 Each day has notes, working code, and exercises with solutions.
@@ -9,7 +9,7 @@ Each day has notes, working code, and exercises with solutions.
 day-XX/
     notes.md          # Theory and derivations
     linear_regression.py  # (or relevant topic script)
-    exercises.md      # Problems — attempt before opening solutions/
+    exercises.md      # Problems â€” attempt before opening solutions/
     solutions/        # Reference answers
 ```
 
@@ -21,16 +21,16 @@ pip install numpy pandas matplotlib scikit-learn
 
 ## Curriculum
 
-### Week 1 — Regression Foundations
+### Week 1 â€” Regression Foundations
 | Day | Topic |
 |-----|-------|
 | 01  | Linear regression: OLS derivation, sklearn, evaluation metrics |
 | 02  | Features, labels, train/test split, data leakage |
-| 03  | Gradient descent — how parameters are actually learned |
-| 04  | Evaluation: MAE, MSE, RMSE, R² |
+| 03  | Gradient descent â€” how parameters are actually learned |
+| 04  | Evaluation: MAE, MSE, RMSE, RÂ² |
 | 05  | Bias-variance tradeoff, overfitting, regularization (Ridge/Lasso) |
 
-### Week 2 — Classification
+### Week 2 â€” Classification
 | Day | Topic |
 |-----|-------|
 | 06  | Logistic regression and the sigmoid function |
@@ -39,7 +39,7 @@ pip install numpy pandas matplotlib scikit-learn
 | 09  | Evaluation: confusion matrix, precision, recall, F1, ROC-AUC |
 | 10  | Support Vector Machines: hard and soft margin |
 
-### Week 3 — Ensemble Methods and Best Practices
+### Week 3 â€” Ensemble Methods and Best Practices
 | Day | Topic |
 |-----|-------|
 | 11  | Bagging and Random Forests |
@@ -48,7 +48,7 @@ pip install numpy pandas matplotlib scikit-learn
 | 14  | Cross-validation: k-fold, stratified, leave-one-out |
 | 15  | Pipelines, preprocessing, and production-ready code |
 
-### Week 4 — Applied Projects
+### Week 4 â€” Applied Projects
 | Day | Topic |
 |-----|-------|
 | 16  | House price prediction (regression, end-to-end) |
@@ -61,3 +61,5 @@ pip install numpy pandas matplotlib scikit-learn
 |-----|--------|
 | 01  | complete |
 | 02  | complete |
+| 03  | complete |
+| 04  | complete |
