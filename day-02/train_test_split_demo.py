@@ -7,7 +7,13 @@
 =======================================================
 """
 
-# ── 0. Imports ──────────────────────────────────────────────────────────────
+import sys
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -143,11 +149,18 @@ print(f"\n  Leaky pipeline R² (test)   : {r2_leaky:.6f}")
 print(f"  Correct pipeline R² (test) : {r2_correct:.6f}")
 print(f"  Difference                 : {abs(r2_leaky - r2_correct):.6f}")
 print("""
-  On this clean dataset the difference is small, but on real-world
-  data with heavy preprocessing (imputation, encoding, scaling) leakage
-  can inflate R² by 0.05–0.30 — making a mediocre model look excellent.
+  Mathematical Note:
+  For standard Ordinary Least Squares (OLS), an invertible linear
+  transformation of features (X -> (X - mu) / sigma) spans the exact same
+  column space. Thus, test R² is mathematically identical (difference = 0.000000).
 
-  The fix is always: SPLIT FIRST, then fit all preprocessing on X_train.
+  However, for models sensitive to feature scales (Ridge, Lasso, kNN, SVM,
+  Neural Networks, or iterative Gradient Descent), or preprocessing that learns
+  parameters from data (imputation, target encoding, outlier clipping, feature selection),
+  fitting on the full dataset leaks test distribution into the training pipeline
+  and artificially inflates evaluation metrics.
+
+  The golden rule is always: SPLIT FIRST, then fit all preprocessing on X_train.
   Use sklearn Pipelines (Day 15) to enforce this automatically.
 """)
 

@@ -5,6 +5,13 @@
 =======================================================
 """
 
+import sys
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -71,9 +78,11 @@ print(f"  Correct R² : {r2_correct:.6f}")
 print(f"  Difference : {abs(r2_leaky - r2_correct):.6f}")
 print("""
   Mean-centering leaks the test-set means into the training pipeline.
-  For centering alone the effect is small on clean data. The impact
-  grows with operations that "learn" more from the data — e.g. PCA,
-  clipping outliers, or imputing missing values.
+  Note that for unregularized OLS, centering features is completely absorbed
+  by the model's intercept term, meaning test R² is mathematically identical
+  (difference = 0.000000).
+  However, the leakage effect becomes severe with operations that alter feature
+  relationships — e.g. PCA, target encoding, outlier clipping, or imputing missing values.
 """)
 
 

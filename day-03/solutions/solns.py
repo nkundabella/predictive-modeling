@@ -5,6 +5,13 @@
 =======================================================
 """
 
+import sys
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -52,8 +59,8 @@ print("Q6 — Gradient Descent with Early Stopping")
 print("=" * 60)
 
 
-def gradient_descent_early_stop(x, y, alpha=0.05, max_epochs=5000, tol=1e-6, patience=5):
-    w, b = 0.0, 0.0
+def gradient_descent_early_stop(x, y, alpha=0.05, max_epochs=5000, tol=1e-6, patience=5, w_init=0.0, b_init=0.0):
+    w, b = w_init, b_init
     history = []
     no_improve = 0
     prev_loss = float("inf")
@@ -137,7 +144,7 @@ print("  " + "-" * 56)
 for _ in range(5):
     w_init = rng_init.normal(0, 10)
     b_init = rng_init.normal(0, 10)
-    w_f, b_f, hist_f = gradient_descent_early_stop(x_tr, y_tr, alpha=0.05, tol=1e-8)
+    w_f, b_f, hist_f = gradient_descent_early_stop(x_tr, y_tr, alpha=0.05, tol=1e-8, w_init=w_init, b_init=b_init)
     final_mse = hist_f[-1][1]
     print(f"  {w_init:>10.3f} {b_init:>10.3f} {w_f:>10.6f} {b_f:>10.6f} {final_mse:>12.6f}")
 

@@ -8,7 +8,13 @@
 =======================================================
 """
 
-# ── 0. Imports ──────────────────────────────────────────────────────────────
+import sys
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -172,7 +178,7 @@ print("\n" + "=" * 60)
 print("PART 4 — LEARNING RATE SENSITIVITY")
 print("=" * 60)
 
-alphas = {"Too small (α=0.001)": 0.001, "Good (α=0.05)": 0.05, "Too large (α=0.9)": 0.9}
+alphas = {"Too small (α=0.001)": 0.001, "Good (α=0.05)": 0.05, "Too large (α=1.05)": 1.05}
 lr_histories = {}
 
 for label, alpha in alphas.items():
@@ -257,7 +263,7 @@ ax.annotate(f"Final: {losses[-1]:.4f}",
 
 # ── Plot 3: Learning rate comparison ─────────────────────────────────────
 ax = axes[1, 0]
-colors_lr = {"Too small (α=0.001)": "#E74C3C", "Good (α=0.05)": "#27AE60", "Too large (α=0.9)": "#9B59B6"}
+colors_lr = {"Too small (α=0.001)": "#E74C3C", "Good (α=0.05)": "#27AE60", "Too large (α=1.05)": "#9B59B6"}
 for label, (ep, ls) in lr_histories.items():
     ls_clean = [v if np.isfinite(v) else None for v in ls]
     ep_plot  = [e for e, v in zip(ep, ls_clean) if v is not None]
