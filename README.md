@@ -63,3 +63,4 @@ pip install numpy pandas matplotlib scikit-learn
 | 02  | complete |
 | 03  | complete |
 | 04  | complete |
+| 05  | complete |
