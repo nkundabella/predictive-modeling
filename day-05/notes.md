@@ -283,7 +283,7 @@ Where:
 
 | Property | OLS | Ridge ($L_2$) | Lasso ($L_1$) | Elastic Net ($L_1 + L_2$) |
 |---|---|---|---|---|
-| **Penalty Term** | None | $\lambda \sum w_j^2$ | $\lambda \sum \|w_j\|$ | $\lambda_1 \sum \|w_j\| + \lambda_2 \sum w_j^2$ |
+| **Penalty Term** | None | $\lambda \sum w_j^2$ | $\lambda \sum |w_j|$ | $\lambda_1 \sum |w_j| + \lambda_2 \sum w_j^2$ |
 | **Closed-Form Solution?** | Yes: $(X^T X)^{-1} X^T y$ | Yes: $(X^T X + \lambda I)^{-1} X^T y$ | No (Iterative: Coordinate Descent) | No (Iterative: Coordinate Descent) |
 | **Generates Sparse Weights?** | No | No (weights shrink, never 0) | **Yes** (automatic feature selection) | **Yes** (sparse with grouping) |
 | **Handles $p > n$?** | No (fails / ill-conditioned) | Yes (always invertible) | Yes (selects at most $n$ features) | Yes (can select $> n$ features) |

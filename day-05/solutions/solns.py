@@ -355,15 +355,18 @@ print("Q10 — ELASTIC NET & GROUPING EFFECT")
 print("=" * 70)
 
 # Generate correlated pairs
+# NOTE: noise std of 0.25 is intentional — too-small noise makes features nearly
+# identical, preventing Lasso from "choosing" one; 0.25 reliably triggers the
+# arbitrary-selection behaviour that illustrates the grouping effect.
 n_en = 100
 z1 = rng.normal(0, 1, n_en)
 z2 = rng.normal(0, 1, n_en)
-# Feature pair 1
-x1 = z1 + rng.normal(0, 0.1, n_en)
-x2 = z1 + rng.normal(0, 0.1, n_en)
-# Feature pair 2
-x3 = z2 + rng.normal(0, 0.1, n_en)
-x4 = z2 + rng.normal(0, 0.1, n_en)
+# Feature pair 1 (r ≈ 0.94)
+x1 = z1 + rng.normal(0, 0.25, n_en)
+x2 = z1 + rng.normal(0, 0.25, n_en)
+# Feature pair 2 (r ≈ 0.94)
+x3 = z2 + rng.normal(0, 0.25, n_en)
+x4 = z2 + rng.normal(0, 0.25, n_en)
 # 4 noise features
 noise_feats = rng.normal(0, 1, (n_en, 4))
 
@@ -374,9 +377,13 @@ y_grouped = 3.0 * z1 - 2.5 * z2 + rng.normal(0, 0.5, n_en)
 scaler_en = StandardScaler()
 X_gr_std = scaler_en.fit_transform(X_grouped)
 
-lasso_gr = Lasso(alpha=0.25, random_state=42).fit(X_gr_std, y_grouped)
-elastic_gr = ElasticNet(alpha=0.25, l1_ratio=0.5, random_state=42).fit(X_gr_std, y_grouped)
+# alpha=0.5 is needed to push Lasso into zeroing one of each correlated pair;
+# alpha=0.25 leaves both features non-zero when correlation is < 0.99.
+alpha_en = 0.5
+lasso_gr = Lasso(alpha=alpha_en, random_state=42).fit(X_gr_std, y_grouped)
+elastic_gr = ElasticNet(alpha=alpha_en, l1_ratio=0.5, random_state=42).fit(X_gr_std, y_grouped)
 
+print(f"  Alpha = {alpha_en}  (same for both models)")
 print(f"\n  {'Feature':<16} {'Lasso (L1)':>15} {'Elastic Net (L1+L2)':>22}")
 print("  " + "-" * 55)
 feature_names = [
@@ -389,9 +396,9 @@ for name, l_c, en_c in zip(feature_names, lasso_gr.coef_, elastic_gr.coef_):
 
 print("""
   Grouping Effect Observation:
-  - In Group 1 (x1, x2): Lasso arbitrarily selected one and almost completely zeroed the other.
+  - In Group 1 (x1, x2): Lasso arbitrarily zeroes one and keeps the other.
   - Elastic Net retains BOTH features with balanced, shared coefficients!
-  - Both successfully suppressed the uninformative noise features to zero.
+  - Both successfully suppress the uninformative noise features to zero.
 """)
 
 print("=" * 70)
