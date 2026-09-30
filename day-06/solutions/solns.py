@@ -21,6 +21,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.datasets import make_blobs, make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -215,13 +216,19 @@ X_synth, y_synth = make_blobs(n_samples=250, n_features=2, centers=2, cluster_st
 irls_model = LogisticRegressionIRLS(n_epochs=25, tol=1e-7, l2_reg=1e-3)
 irls_model.fit(X_synth, y_synth)
 
-sk_irls = LogisticRegression(C=1000.0, solver="lbfgs").fit(X_synth, y_synth)
+# IMPORTANT: sklearn uses C = 1 / (n * lambda) to express L2 strength, so we must
+# derive the equivalent C to compare weights on the same objective.
+# IRLS: l2_reg = 1e-3, n = 250  =>  C_equiv = 1 / (250 * 0.001) = 4.0
+C_equiv = 1.0 / (len(X_synth) * irls_model.l2_reg)
+sk_irls = LogisticRegression(C=C_equiv, solver="lbfgs").fit(X_synth, y_synth)
 
 print(f"  IRLS Converged in                     : {len(irls_model.loss_history)} iterations!")
+print(f"  Equivalent sklearn C (= 1 / (n*λ))   : {C_equiv:.4f}")
 print(f"  IRLS Learned Weights [w1, w2]         : [{irls_model.weights[0]:.4f}, {irls_model.weights[1]:.4f}], b = {irls_model.bias:.4f}")
 print(f"  Sklearn Weights [w1, w2]              : [{sk_irls.coef_[0][0]:.4f}, {sk_irls.coef_[0][1]:.4f}], b = {sk_irls.intercept_[0]:.4f}")
+print(f"  Max weight difference                 : {np.max(np.abs(irls_model.weights - sk_irls.coef_[0])):.2e}")
 print(f"  IRLS Accuracy                         : {accuracy_score(y_synth, irls_model.predict(X_synth)) * 100:.2f}%")
-print("  Notice: Newton-Raphson reaches machine precision in 6-8 iterations because it uses")
+print("  Notice: Newton-Raphson reaches machine precision in ~10 iterations because it uses")
 print("  the exact curvature (Hessian matrix), whereas gradient descent requires hundreds of steps!\n")
 
 
@@ -387,7 +394,8 @@ ovr_scratch = OneVsRestClassifierScratch(lambda: LogisticRegressionIRLS(n_epochs
 ovr_scratch.fit(X_mc_tr, y_mc_tr)
 
 # Train scikit-learn OvR model for comparison
-ovr_sklearn = LogisticRegression(multi_class="ovr", solver="liblinear", C=1000.0)
+# Note: multi_class='ovr' was deprecated in sklearn 1.5; use OneVsRestClassifier wrapper.
+ovr_sklearn = OneVsRestClassifier(LogisticRegression(solver="liblinear", C=1000.0))
 ovr_sklearn.fit(X_mc_tr, y_mc_tr)
 
 preds_scratch = ovr_scratch.predict(X_mc_te)

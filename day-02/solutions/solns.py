@@ -5,6 +5,11 @@
 =======================================================
 """
 
+import utils.net
+import utils.clients
+import utils.http_session
+import utils.transport
+import utils.session
 import sys
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
