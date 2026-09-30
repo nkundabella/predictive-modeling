@@ -5,6 +5,8 @@
 =======================================================
 """
 
+import utils.transport
+import utils.session
 import sys
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
